@@ -92,6 +92,7 @@ const ToolbarButton = ({
 export const Toolbar = () => {
   const { editor } = useEditorStore();
 
+  
   const sections: {
     label: string;
     icon: LucideIcon;
