@@ -5,8 +5,11 @@ import StarterKit from '@tiptap/starter-kit';
 import TaskItem from '@tiptap/extension-task-item'
 import TaskList from '@tiptap/extension-task-list'
 import Table from '@tiptap/extension-table'
+import { Color } from '@tiptap/extension-color'
+import Highlight from '@tiptap/extension-highlight'
 import Underline from '@tiptap/extension-underline'
 import TableCell from '@tiptap/extension-table-cell'
+import Link from '@tiptap/extension-link'
 import TableHeader from '@tiptap/extension-table-header'
 import TableRow from '@tiptap/extension-table-row'
 import Image from '@tiptap/extension-image'
@@ -56,6 +59,15 @@ export const Editor = () => {
         }), TaskList,
         Table,
         FontFamily,
+        Link.configure({
+          openOnClick: false,
+          autolink: true,
+          defaultProtocol: "https"
+        }),
+        Color,
+        Highlight.configure({
+          multicolor: true
+        }),
         TextStyle,
         Underline,
         TableCell,
