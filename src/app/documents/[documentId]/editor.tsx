@@ -17,6 +17,9 @@ import ImageResize from 'tiptap-extension-resize-image'
 import FontFamily from '@tiptap/extension-font-family'
 import TextStyle from '@tiptap/extension-text-style'
 import TextAlign from '@tiptap/extension-text-align'
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
+import {Threads} from './threads'
+import { useStorage } from '@liveblocks/react'
 
 import { useEditorStore } from '@/store/use-editor-store';
 import { FontSizeExtension } from '@/extensions/font-size'
@@ -24,7 +27,9 @@ import { LineHeightExtension } from '@/extensions/line-height';
 import { Ruler } from './ruler';
 
 export const Editor = () => {
-
+  const leftMargin = useStorage((root) => root.leftMargin);
+  const rightMargin = useStorage((root) => root.rightMargin);
+  const liveblocks = useLiveblocksExtension();
   const {setEditor} = useEditorStore();
 
     const editor = useEditor({
@@ -55,45 +60,51 @@ export const Editor = () => {
         },
         editorProps: {
             attributes: {
-                style: "padding-left: 56px; padding-right: 56px",
+                style: `padding-left: ${leftMargin ?? 56}px; padding-right: ${rightMargin ?? 56}px`,
                 class: "focus:outline-none print:border-0 bg-white border border-[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-14 pr-14 pb-10 cursor-text"
             }
         },
-        extensions: [StarterKit, TaskItem.configure({
-            nested: true
-        }), TaskList,
-        Table,
-        FontFamily,
-        Link.configure({
-          openOnClick: false,
-          autolink: true,
-          defaultProtocol: "https"
-        }),
-        Color,
-        Highlight.configure({
-          multicolor: true
-        }),
-        TextStyle,
-        TextAlign.configure({
-          types: ["heading", "paragraph"]
-        }),
-        Underline,
-        FontSizeExtension,
-        LineHeightExtension.configure({
-          types: ["heading", "paragraph"],
-          defaultLineHeight: "normal"
-        }),
-        TableCell,
-        TableHeader,
-        ImageResize,
-        TableRow,
-        Image]
+        extensions: [
+          liveblocks,
+          StarterKit.configure({
+            history: false
+          }), 
+          TaskItem.configure({
+              nested: true
+          }), TaskList,
+          Table,
+          FontFamily,
+          Link.configure({
+            openOnClick: false,
+            autolink: true,
+            defaultProtocol: "https"
+          }),
+          Color,
+          Highlight.configure({
+            multicolor: true
+          }),
+          TextStyle,
+          TextAlign.configure({
+            types: ["heading", "paragraph"]
+          }),
+          Underline,
+          FontSizeExtension,
+          LineHeightExtension.configure({
+            types: ["heading", "paragraph"],
+            defaultLineHeight: "normal"
+          }),
+          TableCell,
+          TableHeader,
+          ImageResize,
+          TableRow,
+          Image]
       })
     return (
         <div className="size-full overflow-x-auto bg-[#F9FBFD] px-4 print:p-0 print:overflow-visible">
             <Ruler/>
             <div className="min-w-max flex justify-center w-[816px] py-4 print:py-0 mx-auto print:w-full print:min-w-0">
                 <EditorContent editor={editor}/>
+                <Threads editor={editor}/>
             </div>
         </div>
     );

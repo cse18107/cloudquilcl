@@ -32,8 +32,11 @@ import {
     MenubarSubTrigger,
     MenubarTrigger
 } from "@/components/ui/menubar";
+import { Avatars } from './avatars';
 import { DocumentInput } from "./document-input";
 import { useEditorStore } from "@/store/use-editor-store";
+import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
+import {Inbox} from "./inbox";
 
 export const Navbar = () => {
     const {editor} = useEditorStore();
@@ -223,6 +226,18 @@ export const Navbar = () => {
                         </Menubar>
                     </div>
                 </div>
+            </div>
+            <div className="flex gap-3 items-center pl-6">
+                
+                <Avatars/>
+                <Inbox/>
+                <OrganizationSwitcher
+                    afterCreateOrganizationUrl={"/"}
+                    afterLeaveOrganizationUrl="/"
+                    afterSelectOrganizationUrl={"/"}
+                    afterSelectPersonalUrl={"/"}
+                />
+                <UserButton/>
             </div>
         </nav>
     );
