@@ -5,6 +5,7 @@ import { AlertTriangleIcon } from "lucide-react";
 import Link from "next/link";
 
 const ErrorPage = ({ error, reset }: { error: Error & { digest?: string }; reset: () => void; }) => {
+    console.log(reset);
     return (
         <div className="min-h-screen flex flex-col items-center justify-center space-y-6">
             <div className="text-center space-y-4">
